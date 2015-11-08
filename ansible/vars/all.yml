@@ -34,7 +34,7 @@ composer:
     install: '1'
 blackfire:
     install: '1'
-    server_id: daa58c7a-cf4a-46cb-a7eb-2b1434572e80
-    server_token: 46024bce6caa625a28eee78a456c6576b7a4e6a643923e271e3648374ee6ae2c
+    server_id:
+    server_token:
 github:
-    oauth_token: 58e0aae5d78a6024868e25a3a091654b13c18db6
+    oauth_token:

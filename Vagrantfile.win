@@ -60,5 +60,5 @@ Vagrant.configure("2") do |config|
     # mac
     # config.vm.synced_folder "./", "/vagrant", type: "nfs"
     # windows
-    config.vm.synced_folder "./", "/vagrant", type: "smb", smb_username: "h_kawai@lecre.jp", smb_password:"crea0201"
+    config.vm.synced_folder "./", "/vagrant", type: "smb", smb_username:"", smb_password:""
 end
