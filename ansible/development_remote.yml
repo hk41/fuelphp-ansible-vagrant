@@ -1,0 +1,20 @@
+---
+    - hosts: openstack
+      sudo: yes
+      vars_files:
+        - vars/all.yml
+        - vars/development_remote.yml
+      roles:
+        - common
+        - server
+        - vagrant_local
+        - dev_tools
+        - samba
+        - php
+        - composer
+        - mysql
+        - redis
+        - xdebug
+        - blackfire
+        - web
+        - webframework

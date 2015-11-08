@@ -1,0 +1,38 @@
+---
+- name: get nginx signing key
+  apt_key: url=http://nginx.org/keys/nginx_signing.key
+
+- name: update nginx sources1
+  apt_repository: repo="deb http://nginx.org/packages/ubuntu/ trusty nginx"
+
+- name: update nginx sources2
+  apt_repository: repo="deb-src http://nginx.org/packages/ubuntu/ trusty nginx"
+
+- name: install nginx
+  apt: pkg=nginx state=present update_cache=yes
+
+- name: create nginx directories
+  file: path={{ item }} state=directory
+  with_items:
+    - /etc/nginx/sites-available
+    - /etc/nginx/sites-enable
+
+- name: configure nginx
+  template: src={{ nginx_conf }} dest=/etc/nginx/nginx.conf mode=0644
+  notify: nginx restart
+
+- name: configure virtualhost
+  template: src={{ virtualhost_conf }} dest=/etc/nginx/sites-available/virtual.conf mode=0644
+  notify: nginx restart
+
+- name: create link to virtualhost
+  file: src=/etc/nginx/sites-available/virtual.conf dest=/etc/nginx/sites-enable/virtual.conf state=link
+  notify: nginx restart
+
+- name: kill if already use 80/tcp
+  sudo: yes
+  shell: fuser -k 80/tcp
+  ignore_errors: yes
+
+- name: start nginx
+  service: name=nginx state=started enabled=yes

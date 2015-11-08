@@ -1,0 +1,21 @@
+---
+    - hosts: 192.168.33.99
+      sudo: yes
+      vars_files:
+        - vars/all.yml
+        - vars/development_local.yml
+      roles:
+        - common
+        - server
+        - vagrant_local
+        - dev_tools
+          # windowsで実行するときは有効にする
+          #- samba
+        - php
+        - composer
+        - mysql
+        - redis
+        - xdebug
+        - blackfire
+        - web
+        - webframework

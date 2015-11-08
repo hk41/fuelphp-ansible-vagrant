@@ -1,0 +1,13 @@
+proj_path: /var/www/fuel
+proj_sync_dir: /vagrant
+proj_sync_path: /vagrant/fuel
+
+nginx_conf: nginx_development_local.conf.j2
+virtualhost_conf: virtual_development_local.conf.j2
+
+phpfpm_user: vagrant
+phpfpm_group: vagrant
+
+dbuser: fuel_user
+dbname: fuel_dev
+dbpassword: fuel_password
