@@ -24,16 +24,16 @@ end
 
 Vagrant.configure("2") do |config|
 
-    config.vm.provider :virtualbox do |v|
-        v.name = "meesi"
-        v.customize [
-            "modifyvm", :id,
-            "--name", "meesi",
-            "--memory", 2048,
-            "--natdnshostresolver1", "on",
-            "--cpus", 1,
-        ]
-    end
+    #config.vm.provider :virtualbox do |v|
+    #    v.name = "meesi"
+    #    v.customize [
+    #        "modifyvm", :id,
+    #        "--name", "meesi",
+    #        "--memory", 2048,
+    #        "--natdnshostresolver1", "on",
+    #        "--cpus", 1,
+    #    ]
+    #end
 
     config.vm.box = "ubuntu/trusty64"
 
@@ -60,5 +60,6 @@ Vagrant.configure("2") do |config|
     # mac
     # config.vm.synced_folder "./", "/vagrant", type: "nfs"
     # windows
-    config.vm.synced_folder "./", "/vagrant", type: "smb", smb_username:"", smb_password:""
+    #config.vm.synced_folder "./", "/vagrant", type: "smb", smb_username:"", smb_password:""
+    config.vm.synced_folder "./", "/vagrant"
 end
