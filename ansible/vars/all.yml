@@ -11,6 +11,8 @@ nginx:
     install: '1'
     docroot: /var/www
     servername: myApp.vb
+# this value is override other vars_files
+nginx_do_not_cache: 0
 mysql:
     install: '1'
     root_password: crea0201
@@ -38,3 +40,24 @@ blackfire:
     server_token:
 github:
     oauth_token:
+
+work_dir: /etc/nginx/cer
+openssl_dir: "{{ work_dir }}/meesiSSL"
+openssl_cnf: "{{ work_dir }}/meesiSSL/openssl.cnf"
+ca:
+  default_md: sha256
+  digest: sha256
+  days: 3650
+  subject: "/C=JP/ST=Tokyo/O=organization/CN=ECC Test CA"
+  key: ca-private.key
+  certificate: ca.pem
+req:
+  digest: sha256
+  key: private.key
+  csr: req.pem
+usr:
+  digest: sha256
+  extendedKeyUsage:
+    - serverAuth
+    - clientAuth
+  certificate: server.pem

@@ -9,13 +9,14 @@
         - server
         - vagrant_local
         - dev_tools
-          # windowsで実行するときは有効にする
-          #- samba
+        # windowsでsmbを有効にするときはコメントアウトを外す
+        #- samba
         - php
         - composer
         - mysql
         - redis
         - xdebug
-        - blackfire
+        #- blackfire
+        - self-ssl
         - web
         - webframework

@@ -2,16 +2,31 @@ server {
        listen 80 default_server;
        server_name {{ nginx.servername }};
 
+       # Strict Transport Security
+       add_header Strict-Transport-Security max-age=2592000;
+       rewrite ^/.*$ https://$host$request_uri? permanent;
+}
+server {
+       listen 443 default ssl;
+       server_name {{ nginx.servername }};
+       ssl on;
+       ssl_certificate {{ openssl_dir }}/{{ ca.certificate }};
+       ssl_certificate_key {{ openssl_dir }}/{{ ca.key }};
        root {{ proj_path }}/public;
+
+       set $do_not_cache {{ nginx_do_not_cache }};
 
        location / {
                 try_files $uri /index.php?$uri&$args;
         }
 
         location ~ \.php$ {
+                proxy_no_cache $do_not_cache;
+                proxy_cache_bypass $do_not_cache;
                 fastcgi_pass 127.0.0.1:9000;
                 fastcgi_index index.php;
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                fastcgi_param  HTTPS on;
                 include fastcgi_params;
         }
 }

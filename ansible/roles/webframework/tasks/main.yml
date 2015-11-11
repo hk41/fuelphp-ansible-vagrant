@@ -8,12 +8,37 @@
 - name: github-auth limit 3
   template: src=auth.json.tpl dest=~/.composer/auth.json
   ignore_errors: yes
-- name: install oil command
-  shell: curl get.fuelphp.com/oil | sh
-  ignore_errors: yes
-- name: install FuelPHP
-  git: repo=https://github.com/fuel/fuel dest={{ proj_sync_path }} version=1.7/master recursive=yes
-  ignore_errors: yes
+
+#################
+# fuelphp install
+#################
+#
+#- name: install oil command
+#  shell: curl get.fuelphp.com/oil | sh
+#  ignore_errors: yes
+#- name: install FuelPHP
+#  git: repo=https://github.com/fuel/fuel dest={{ proj_sync_path }} version=1.7/master recursive=yes
+#  ignore_errors: yes
+#- name: setup1 FuelPHP
+#  shell: cd {{ proj_sync_path }}; php composer.phar self-update
+#  register: fuel_selfupdate
+#  ignore_errors: yes
+#- debug: msg="rc:{{fuel_selfupdate.rc}} stdout:{{fuel_selfupdate.stdout}} stderr:{{fuel_selfupdate.stderr}}"
+#- name: setup2 FuelPHP
+#  shell: cd {{ proj_sync_path }}; php composer.phar update
+#  register: fuel_update
+#  ignore_errors: yes
+##- debug: msg="rc:{{fuel_update.rc}} stdout:{{fuel_update.stdout}} stderr:{{fuel_update.stderr}}"
+#- name: setup3 FuelPHP
+#  shell: cd {{ proj_sync_path }}; php oil refine install
+#- name: generate link docroot
+#  shell: cd {{ proj_sync_path }}; ln -s {{ proj_sync_path }} {{ proj_path }}
+#  ignore_errors: yes
+
+
+#################
+# link fuelphp project
+#################
 - name: setup1 FuelPHP
   shell: cd {{ proj_sync_path }}; php composer.phar self-update
   register: fuel_selfupdate
@@ -29,3 +54,16 @@
 - name: generate link docroot
   shell: cd {{ proj_sync_path }}; ln -s {{ proj_sync_path }} {{ proj_path }}
   ignore_errors: yes
+- name: generate link docroot config
+  shell: cd {{ proj_sync_path }}/fuel/app; ln -s {{ proj_sync_app_symboliclink_config_path}} .
+  ignore_errors: yes
+- name: generate link docroot modules
+  shell: cd {{ proj_sync_path }}/fuel/app; ln -s {{ proj_sync_app_symboliclink_modules_path}} .
+  ignore_errors: yes
+- name: generate link docroot public
+  shell: cd {{ proj_sync_path }}; ln -s {{ proj_sync_app_symboliclink_docroot}} .
+  ignore_errors: yes
+- name: generate link docroot public_admin
+  shell: cd {{ proj_sync_path }}; ln -s {{ proj_sync_app_symboliclink_admin_docroot}} .
+  ignore_errors: yes
+
