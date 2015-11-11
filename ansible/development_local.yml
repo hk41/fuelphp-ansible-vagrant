@@ -17,6 +17,6 @@
         - redis
         - xdebug
         #- blackfire
-        - self-ssl
+        - selfssl
         - web
         - webframework

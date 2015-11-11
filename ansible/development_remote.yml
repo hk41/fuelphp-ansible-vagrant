@@ -9,12 +9,13 @@
         - server
         - vagrant_local
         - dev_tools
-        - samba
+        #- samba
         - php
         - composer
         - mysql
         - redis
         - xdebug
-        - blackfire
+        #- blackfire
+        - selfssl
         - web
         - webframework
