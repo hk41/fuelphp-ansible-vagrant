@@ -1,0 +1,23 @@
+---
+# file: webservers.yml
+- hosts: localhost
+  sudo: yes
+  vars_files:
+    - vars/all.yml
+    - vars/{{ stage }}.yml
+  roles:
+    - app
+    - common
+    - server
+    - vagrant_local
+    - dev_tools
+    # windowsでsmbを有効にするときはコメントアウトを外す
+    #- samba
+    - php
+    - composer
+    - redis
+    - xdebug
+    #- blackfire
+    - selfssl
+    - web
+    - webframework

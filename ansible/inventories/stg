@@ -1,8 +1,8 @@
 [default-webservers]
-192.168.33.99
+153.127.192.37
 
 [default-dbservers]
-192.168.33.99
+153.127.192.37
 
 # webservers in all geos
 [default:children]
@@ -19,4 +19,4 @@ default-webservers
 default-dbservers
 
 [all:vars]
-stage=dev
+stage=stg

@@ -18,3 +18,4 @@ dbname: fuel_dev
 dbpassword: fuel_password
 
 nginx_do_not_cache: 1
+nginx_fuel_env: development

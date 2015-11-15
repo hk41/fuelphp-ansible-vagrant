@@ -1,4 +1,0 @@
----
-- hosts: all
-- include: development_local.yml
-- include: development_remote.yml

@@ -15,6 +15,7 @@ server {
        root {{ proj_path }}/public;
 
        set $do_not_cache {{ nginx_do_not_cache }};
+       set $fuel_env {{ nginx_fuel_env }};
 
        location / {
                 try_files $uri /index.php?$uri&$args;
@@ -26,7 +27,8 @@ server {
                 fastcgi_pass 127.0.0.1:9000;
                 fastcgi_index index.php;
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-                fastcgi_param  HTTPS on;
+                fastcgi_param HTTPS on;
+                fastcgi_param FUEL_ENV $fuel_env;
                 include fastcgi_params;
         }
 }

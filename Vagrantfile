@@ -45,16 +45,20 @@ Vagrant.configure("2") do |config|
     # If ansible is in your path it will provision from your HOST machine
     # If ansible is not found in the path it will be instaled in the VM and provisioned from there
     if which('ansible-playbook')
-        config.vm.provision "ansible" do |ansible|
-            ansible.playbook = "ansible/playbook.yml"
-            ansible.inventory_path = "ansible/inventories/dev"
-            ansible.limit = 'all'
-            ansible.groups = {
-              "phansible-web" => ["192.168.33.99"],
-            }
-        end
+#        config.vm.provision "ansible" do |ansible|
+##            ansible.playbook = "ansible/playbook.yml"
+##            ansible.inventory_path = "ansible/inventories/dev"
+##            ansible.limit = 'all'
+##            ansible.groups = {
+##              "phansible-web" => ["192.168.33.99"],
+##            }
+#            ansible.playbook = "ansible/site.yml"
+#            ansible.inventory_path = "ansible/inventories/dev"
+#            ansible.limit = 'all'
+#        end
+        config.vm.provision :shell, path: "ansible/windows.sh", args: ["/vagrant/ansible/inventories/dev"]
     else
-        config.vm.provision :shell, path: "ansible/windows.sh", args: ["192.168.33.99"]
+        config.vm.provision :shell, path: "ansible/windows.sh", args: ["/vagrant/ansible/inventories/dev"]
     end
 
     config.vm.synced_folder "./", "/vagrant", type: "nfs"
