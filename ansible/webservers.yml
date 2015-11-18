@@ -10,11 +10,13 @@
     - common
     - server
     - vagrant_local
-    - dev_tools
     # windowsでsmbを有効にするときはコメントアウトを外す
     #- samba
     - php
     - composer
+    - rbenv
+    - nodejs
+    - dev_tools
     - redis
     - xdebug
     #- blackfire

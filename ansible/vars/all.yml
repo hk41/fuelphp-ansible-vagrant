@@ -62,3 +62,7 @@ usr:
     - serverAuth
     - clientAuth
   certificate: server.pem
+rbenv:
+  user: deploy
+  version: v0.4.0
+  ruby_version: 2.0.0-p247
