@@ -40,7 +40,7 @@ blackfire:
     server_id:
     server_token:
 github:
-    oauth_token:
+    oauth_token: 63e6e5f34aa7208cedcb1254b5366d9ea083480d
 
 work_dir: /etc/nginx/cer
 openssl_dir: "{{ work_dir }}/meesiSSL"
