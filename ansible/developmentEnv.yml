@@ -1,0 +1,9 @@
+---
+# file: developmentEnv.yml
+- hosts: localhost
+  sudo: yes
+  vars_files:
+    - vars/all.yml
+    - vars/{{ stage }}.yml
+  roles:
+    - webframework

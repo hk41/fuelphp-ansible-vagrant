@@ -1,7 +1,8 @@
 ---
 server:
     install: '1'
-    packages: [vim, git, imagemagick, npm, screen, tmux, rsync, gcc, tar, make]
+    packages: [vim, git, imagemagick, screen, tmux, rsync, gcc, tar, make]
+#    packages: [vim, git, imagemagick, screen, tmux, rsync, gcc, tar, make]
     timezone: Asia/Tokyo
     locale: ja_JP.UTF-8
 vagrant_local:
