@@ -2,15 +2,19 @@
 - name: install PHPUnit
   get_url: url=https://phar.phpunit.de/phpunit.phar dest=/usr/local/bin/phpunit mode=555
 
-- name: Install rails and bundler
-  sudo_user: "{{ rbenv_user }}"
-  gem: name={{ item }} executable=.rbenv/shims/gem user_install=False
-  with_items:
-    - rails
-    - bundler
+#- name: Install rails and bundler
+#  sudo_user: "{{ rbenv_user }}"
+#  gem: name={{ item }} executable=.rbenv/shims/gem user_install=False
+#  with_items:
+#    - rails
+#    - bundler
 
 - name: Install javascript tools
   npm: name={{ item }} state=latest global=yes
   with_items:
     - bower
     - grunt-cli
+    - gm
+    - canvas
+    - fabric
+    - forever

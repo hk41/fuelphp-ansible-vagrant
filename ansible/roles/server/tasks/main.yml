@@ -28,4 +28,3 @@
 - name: Set default system language pack
   shell: locale-gen {{server.locale}}
   sudo: yes
-

@@ -11,7 +11,4 @@ github.oauth_okenを入力
 
 ### windows
 * Vagrantfile.winをVagrantにリネーム
-* smbを利用する場合はansible/development_local.ymlに記載された- sambaを有効にする (powershell 3.0以降が必要)
 * vagrant up
-
-

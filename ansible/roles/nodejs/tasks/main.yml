@@ -1,4 +1,21 @@
 ---
+- name: Add ppa Repository
+  sudo: yes
+  apt_repository: repo=ppa:chris-lea/node.js
+
+- name: Install Extra Packages
+  sudo: yes
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - python-software-properties
+    - python
+    - g++
+    - make
+
+- name: Update apt
+  sudo: yes
+  apt: update_cache=yes
+
 - name: Download setup shell for nodejs
   get_url: url="https://deb.nodesource.com/setup_0.12" dest="/tmp/setup_node.sh" mode=0755
 
@@ -7,3 +24,14 @@
 
 - name: Install nodejs
   apt: name=nodejs state=latest
+
+- name: Install Extra Packages
+  sudo: yes
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - libcairo2-dev
+    - libjpeg8-dev
+    - libpango1.0-dev
+    - libgif-dev
+    - build-essential
+    - graphicsmagick

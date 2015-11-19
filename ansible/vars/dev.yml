@@ -1,11 +1,6 @@
-proj_path: /var/www/fuel
+proj_path: /var/www/meeesi
 proj_sync_dir: /vagrant
-proj_sync_path: /vagrant/fuel
-proj_sync_app_path: /vagrant/meesi
-proj_sync_app_symboliclink_config_path: ../../../meesi/config
-proj_sync_app_symboliclink_modules_path: ../../../meesi/modules
-proj_sync_app_symboliclink_docroot: ../meesi/public
-proj_sync_app_symboliclink_admin_docroot: ../meesi/public_admin
+proj_sync_path: /vagrant/meeesi
 
 nginx_conf: nginx_development_local.conf.j2
 virtualhost_conf: virtual_development_local.conf.j2

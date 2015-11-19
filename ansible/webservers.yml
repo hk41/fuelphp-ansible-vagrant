@@ -14,7 +14,7 @@
     #- samba
     - php
     - composer
-    - rbenv
+      #    - rbenv
     - nodejs
     - dev_tools
     - redis

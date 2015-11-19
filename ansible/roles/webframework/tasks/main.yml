@@ -51,19 +51,5 @@
 #- debug: msg="rc:{{fuel_update.rc}} stdout:{{fuel_update.stdout}} stderr:{{fuel_update.stderr}}"
 - name: setup3 FuelPHP
   shell: cd {{ proj_sync_path }}; php oil refine install
-- name: generate link docroot
-  shell: cd {{ proj_sync_path }}; ln -s {{ proj_sync_path }} {{ proj_path }}
-  ignore_errors: yes
-- name: generate link docroot config
-  shell: cd {{ proj_sync_path }}/fuel/app; ln -s {{ proj_sync_app_symboliclink_config_path}} .
-  ignore_errors: yes
-- name: generate link docroot modules
-  shell: cd {{ proj_sync_path }}/fuel/app; ln -s {{ proj_sync_app_symboliclink_modules_path}} .
-  ignore_errors: yes
-- name: generate link docroot public
-  shell: cd {{ proj_sync_path }}; ln -s {{ proj_sync_app_symboliclink_docroot}} .
-  ignore_errors: yes
-- name: generate link docroot public_admin
-  shell: cd {{ proj_sync_path }}; ln -s {{ proj_sync_app_symboliclink_admin_docroot}} .
-  ignore_errors: yes
-
+- name: setup4 initialized database
+  shell: cd {{ proj_sync_path }}/fuel/app/config/sql/; ./db_local_init.sh localhost
