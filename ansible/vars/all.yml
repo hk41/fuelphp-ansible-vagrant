@@ -65,8 +65,6 @@ usr:
   certificate: server.pem
 
 vagrant_home: "/home/vagrant"
-rvm:
-  version: 2.2.3
 
 rvm:
   url: https://get.rvm.io

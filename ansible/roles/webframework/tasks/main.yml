@@ -52,7 +52,7 @@
 - name: setup3 FuelPHP
   shell: cd {{ proj_sync_path }}; php oil refine install
 - name: setup4 initialized database
-  shell: cd {{ proj_sync_path }}/fuel/app/config/sql/; ./db_local_init.sh localhost
+  command: "{{ proj_sync_path }}/fuel/app/config/sql/db_local_init.sh localhost"
 - name: generate link docroot
-  shell: ln -s {{ proj_sync_path }} {{ proj_path }}
+  shell: ln -s {{ proj_sync_path }} /var/www
   ignore_errors: yes

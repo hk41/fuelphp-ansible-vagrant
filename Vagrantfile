@@ -56,9 +56,9 @@ Vagrant.configure("2") do |config|
 #            ansible.inventory_path = "ansible/inventories/dev"
 #            ansible.limit = 'all'
 #        end
-        config.vm.provision :shell, path: "ansible/windows.sh", args: ["/vagrant/ansible/inventories/dev"]
+        config.vm.provision :shell, path: "ansible/windows.sh", args: ["/vagrant/ansible/inventories/dev", "/tmp/dev"]
     else
-        config.vm.provision :shell, path: "ansible/windows.sh", args: ["/vagrant/ansible/inventories/dev"]
+        config.vm.provision :shell, path: "ansible/windows.sh", args: ["/vagrant/ansible/inventories/dev", "/tmp/dev"]
     end
 
     config.vm.synced_folder "./", "/vagrant", type: "nfs"
