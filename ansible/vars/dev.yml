@@ -14,3 +14,4 @@ dbpassword: fuel_password
 
 nginx_do_not_cache: 1
 nginx_fuel_env: development
+nginx_client_max_body_size: 20M

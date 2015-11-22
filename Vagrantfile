@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
             "--name", "meesi",
             "--memory", 2048,
             "--natdnshostresolver1", "on",
-            "--cpus", 1,
+            "--cpus", 2,
         ]
     end
 

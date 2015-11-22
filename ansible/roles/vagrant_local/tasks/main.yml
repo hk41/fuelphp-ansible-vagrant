@@ -8,4 +8,4 @@
   when: vagrant_local.vm.hostname is defined
 
 - name: Update /etc/hosts
-  lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' line='127.0.0.1 localhost {{ nginx.servername }} {{ nginx.servernameAdmin }}' owner=root group=root mode=0644
+  lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' line='127.0.0.1 localhost {{ nginx.servername }} {{ nginx.servernameAdmin }} {{ nginx.servernameNode }}' owner=root group=root mode=0644

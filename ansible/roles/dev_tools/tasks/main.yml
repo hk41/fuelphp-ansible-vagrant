@@ -12,9 +12,18 @@
 - name: Install javascript tools
   npm: name={{ item }} state=latest global=yes
   with_items:
+    - node-dev
     - bower
     - grunt-cli
     - gm
     - canvas
     - fabric
     - forever
+    - flags
+    - browserify
+    - express
+    - express-generator
+    - pm2
+    - q
+    - request
+    - tmp

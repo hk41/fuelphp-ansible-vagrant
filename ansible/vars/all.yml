@@ -13,6 +13,7 @@ nginx:
     docroot: /var/www
     servername: myApp.vb
     servernameAdmin: myAdmin.vb
+    servernameNode: myNode.vb
 # this value is override other vars_files
 nginx_do_not_cache: 0
 mysql:
