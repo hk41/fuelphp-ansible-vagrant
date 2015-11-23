@@ -27,3 +27,7 @@
     - q
     - request
     - tmp
+    - easyimage
+    - node-inspector
+    - config
+    - sharp

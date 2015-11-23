@@ -3,6 +3,10 @@
   sudo: yes
   apt_repository: repo=ppa:chris-lea/node.js
 
+- name: Add ppa Repository
+  sudo: yes
+  apt_repository: repo=ppa:lovell/trusty-backport-vips
+
 - name: Install Extra Packages
   sudo: yes
   apt: pkg={{ item }} state=latest
@@ -33,5 +37,7 @@
     - libjpeg8-dev
     - libpango1.0-dev
     - libgif-dev
+    - libvips-dev
+    - libgsf-1-dev
     - build-essential
     - graphicsmagick
