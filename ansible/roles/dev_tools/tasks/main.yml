@@ -31,3 +31,4 @@
     - node-inspector
     - config
     - sharp
+    - image-size
