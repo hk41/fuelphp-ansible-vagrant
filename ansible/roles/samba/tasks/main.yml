@@ -1,6 +1,6 @@
 ---
 - name: install samba
-  apt: pkg=samba state=latest
+  yum: name=samba state=latest
   notify:
     - samba-restart
 

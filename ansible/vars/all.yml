@@ -1,13 +1,14 @@
 ---
 server:
     install: '1'
-    packages: [vim, git, imagemagick, screen, tmux, rsync, gcc, tar, make]
-#    packages: [vim, git, imagemagick, screen, tmux, rsync, gcc, tar, make]
+    packages: [vim, git, ImageMagick, ImageMagick-devel, screen, tmux, rsync, gcc, tar, make]
+    zoneinfo: Japan
     timezone: Asia/Tokyo
     locale: ja_JP.UTF-8
+    localedef: ja_JP ja_JP.UTF-8
 vagrant_local:
     install: '1'
-    vm: { base_box: trusty64, hostname: myApp.vb, ip: 192.168.33.99, memory: '2048', sharedfolder: ./, useVagrantCloud: '1', syncType: nfs }
+    vm: { base_box: centos65, hostname: myApp.vb, ip: 192.168.33.99, memory: '2048', sharedfolder: ./, useVagrantCloud: '1', syncType: nfs }
 nginx:
     install: '1'
     docroot: /var/www
@@ -28,11 +29,9 @@ redis:
     port: '6379'
 php:
     install: '1'
-    ppa: php5-5.6
-# already include php5-mbstring ubuntu trusty64
-#    packages: [php5-cli, php-pear, php5-curl, php5-imagick, php5-common, php5-fpm, php5-gd, php5-mbstring, php5-mcrypt, php5-memcache, php5-memcached, php5-mysql, php5-xdebug]
-    packages: [php5-cli, php-pear, php5-curl, php5-imagick, php5-common, php5-fpm, php5-gd, php5-mcrypt, php5-memcache, php5-memcached, php5-mysql, php5-xdebug]
-    peclpackages: [APC, memcache, memcached, ZendOpcache, mysql, PDO_MYSQL, redis, libevent, imagick]
+    packages: [php-cli, php-devel, php-pear, php-curl, php-imagick, php-opcache, php-common, php-fpm, php-gd, php-mcrypt, php-memcache, php-memcached, php-mysql, php-xdebug, php-pdo, curl-devel, libmcrypt, php-mcrypt]
+    #pecl_packages: [ZendOpcache, mysql, redis, libevent, imagick]
+    pecl_packages: [redis]
 xdebug:
     install: '1'
 composer:
@@ -42,11 +41,11 @@ blackfire:
     server_id:
     server_token:
 github:
-    oauth_token: 63e6e5f34aa7208cedcb1254b5366d9ea083480d
+    oauth_token: d451c7e86d00b84b6c506c27f1a4ef9f71205275
 
 work_dir: /etc/nginx/cer
-openssl_dir: "{{ work_dir }}/meesiSSL"
-openssl_cnf: "{{ work_dir }}/meesiSSL/openssl.cnf"
+openssl_dir: "{{ work_dir }}/meeesiSSL"
+openssl_cnf: "{{ work_dir }}/meeesiSSL/openssl.cnf"
 ca:
   default_md: sha256
   digest: sha256
@@ -79,3 +78,40 @@ rvm:
 rvm_install_type: system
 rvm_auto_update_rvm: true
 rvm_default_ruby_version: ruby-2.2.2
+
+#nodejs_compile: True   # install tools for compiling native addons from npm
+## Node.js version; e.g., "4.0", "0.12", "0.12.7"
+#nodejs_version: "4.0"
+
+# Set the version of Node.js to install (e.g. "0.10", "0.12", "4.x", "5.x").
+nodejs_version: "5.x"
+
+# Install forever, which is useful for running Node.js apps.
+nodejs_forever: false
+
+# Define a list of global packages to be installed with NPM.
+nodejs_npm_global_packages:
+    - name: node-dev
+    - name: bower
+    - name: grunt-cli
+    - name: gm
+    - name: canvas
+    - name: flags
+    - name: browserify
+    - name: express
+    - name: express-generator
+    - name: pm2
+    - name: q
+    - name: request
+    - name: tmp
+    - name: easyimage
+    - name: node-inspector
+    - name: config
+    - name: image-size
+    - name: fabric
+
+#  # Install a specific version of a package.
+#  - name: jslint
+#    version: 0.9.3
+#  # Install the latest stable release of a package.
+  ##  - name: node-sass

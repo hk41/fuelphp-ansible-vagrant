@@ -17,8 +17,6 @@
     - grunt-cli
     - gm
     - canvas
-    - fabric
-    - forever
     - flags
     - browserify
     - express
@@ -30,5 +28,5 @@
     - easyimage
     - node-inspector
     - config
-    - sharp
     - image-size
+    - fabric

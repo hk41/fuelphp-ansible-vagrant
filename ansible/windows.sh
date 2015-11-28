@@ -1,28 +1,16 @@
 #!/usr/bin/env bash
 
-# Update Repositories
-sudo apt-get update
+# Install fastmirror
+sudo yum -y install yum-plugin-fastestmirror
 
-# Determine Ubuntu Version
-. /etc/lsb-release
-
-# Decide on package to install for `add-apt-repository` command
-#
-# USE_COMMON=1 when using a distribution over 12.04
-# USE_COMMON=0 when using a distribution at 12.04 or older
-USE_COMMON=$(echo "$DISTRIB_RELEASE > 12.04" | bc)
-
-if [ "$USE_COMMON" -eq "1" ];
-then
-    sudo apt-get install -y software-properties-common
-else
-    sudo apt-get install -y python-software-properties
-fi
+# Update packages
+sudo yum -y update
 
 # Add Ansible Repository & Install Ansible
-sudo add-apt-repository -y ppa:ansible/ansible
-sudo apt-get update
-sudo apt-get install -y ansible
+sudo wget http://ftp-srv2.kddilabs.jp/Linux/distributions/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm
+sudo rpm -Uvh epel-release-6-8.noarch.rpm
+sudo yum -y install --enablerepo=ansible
+sudo yum -y install ansible
 
 # Setup Ansible for Local Use and Run
 cp $1 $2

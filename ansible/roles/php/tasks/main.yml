@@ -1,27 +1,24 @@
 ---
-- name: Add ppa Repository
-  sudo: yes
-  apt_repository: repo=ppa:ondrej/{{ php.ppa }}
-
-- name: Update apt
-  sudo: yes
-  apt: update_cache=yes
-
 - name: Install php5
   sudo: yes
-  apt: pkg=php5 state=latest
+  yum: name=php state=latest enablerepo=remi,remi-php56
 
-- name: Install php5-fpm
+- name: Install php-fpm
   sudo: yes
-  apt: pkg=php5-fpm state=latest
+  yum: name=php-fpm state=latest enablerepo=remi,remi-php56,epel
 
 - name: configure fpm
-  template: src=www.conf.j2 dest=/etc/php5/fpm/pool.d/www.conf mode=0644
-  notify: restart php-fpm
+  template: src=www.conf.j2 dest=/etc/php-fpm.d/www.conf mode=0644
+
+- name: set autoload php-fpm
+  command: chkconfig php-fpm on
+
+- name: restart php-fpm
+  service: name=php-fpm state=restarted
 
 - name: Install PHP Packages
   sudo: yes
-  apt: pkg={{ item }} state=latest
+  yum: name={{ item }} state=latest enablerepo=remi,remi-php56,epel
   with_items: php.packages
   when: php.packages is defined
 

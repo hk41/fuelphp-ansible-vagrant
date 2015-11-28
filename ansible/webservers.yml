@@ -6,19 +6,16 @@
     - vars/all.yml
     - vars/{{ stage }}.yml
   roles:
-    - app
     - common
     - server
     - vagrant_local
     # windowsでsmbを有効にするときはコメントアウトを外す
     #- samba
+    - mysql
     - php
     - composer
     - rvm
-    - nodejs
+    - nodejs_cent
     - dev_tools
-    - redis
-    - xdebug
-    #- blackfire
     - selfssl
     - web

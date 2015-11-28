@@ -1,0 +1,40 @@
+---
+- include: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Install forever (to run Node.js apps).
+  npm: name=forever global=yes state=latest
+  when: nodejs_forever
+
+- name: Install additional defined npm global packages.
+  npm:
+    name: "{{ item.name }}"
+    version: "{{ item.version | default('') }}"
+    global: yes
+    state: latest
+  with_items: nodejs_npm_global_packages
+
+- name: Install Extra Packages
+  sudo: yes
+  yum: name={{ item }} state=latest enablerepo=epel
+  with_items:
+    - cairo
+    - cairo-devel
+    - cairomm-devel
+    - libjpeg-turbo-devel
+    - pango
+    - pango-devel
+    - pangomm
+    - pangomm-devel
+    - GraphicsMagick
+    - GraphicsMagick-devel
+#      #    - libcairo2-devel
+#      #    - libjpeg8-devel
+#      #    - libpango1.0-devel
+#      #    - libgif-devel
+#      #    - libvips-devel
+#      #    - libgsf-1-devel
+#      #    - build-essential

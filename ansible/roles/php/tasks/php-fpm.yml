@@ -10,14 +10,14 @@
 #  notify: restart php5-fpm
 
 - name: configure fpm
-  template: src=www.conf.j2 dest=/etc/php5/fpm/pool.d/www.conf mode=0644
-  notify: restart php5-fpm
+  template: src=www.conf.j2 dest=/etc/php-fpm.d/www.conf mode=0644 backup=yes
+  notify: restart php-fpm
 
 - name: ensure timezone is set in fpm php.ini
-  lineinfile: dest=/etc/php5/fpm/php.ini
+  lineinfile: dest=/etc/php/fpm/php.ini
               regexp='date.timezone ='
               line='date.timezone = {{ server.timezone }}'
 - name: enabling opcache
-  lineinfile: dest=/etc/php5/fpm/php.ini
+  lineinfile: dest=/etc/php/fpm/php.ini
               regexp=';?opcache.enable=\d'
               line='opcache.enable=1'
