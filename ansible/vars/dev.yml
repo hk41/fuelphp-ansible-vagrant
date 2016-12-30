@@ -1,6 +1,6 @@
-proj_path: /var/www/meeesi
+proj_path: /var/www/melba
 proj_sync_dir: /vagrant
-proj_sync_path: /vagrant/meeesi
+proj_sync_path: /vagrant/melba
 
 nginx_conf: nginx_development_local.conf.j2
 virtualhost_conf: virtual_development_local.conf.j2

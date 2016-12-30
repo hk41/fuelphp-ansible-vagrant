@@ -1,0 +1,20 @@
+---
+- name: ensure timezone is set in cli php.ini
+  lineinfile: dest=/etc/php.ini
+              regexp='date.timezone ='
+              line='date.timezone = {{ server.timezone }}'
+
+- name: enabling opcache cli
+  lineinfile: dest=/etc/php.ini
+              regexp=';?opcache.enable_cli=\d'
+              line='opcache.enable_cli=1'
+
+- name: enabling mbstring.language cli
+  lineinfile: dest=/etc/php.ini
+              regexp=';mbstring.language ='
+              line='mbstring.language = Japanese'
+
+- name: enabling mbstring.http_input cli
+  lineinfile: dest=/etc/php.ini
+              regexp=';mbstring.http_input ='
+              line='mbstring.http_input = auto'
