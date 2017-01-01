@@ -1,22 +1,22 @@
 ---
 server:
     install: '1'
-    packages: [vim, git, ImageMagick, ImageMagick-devel, screen, rsync, gcc, tar, make, cairo, cairo-devel, cairomm-devel, libjpeg-turbo-devel, pango, pango-devel, pangomm, pangomm-devel, giflib-devel, ld-linux.so.2, libstdc++.so.6, libfontconfig.so.1]
     zoneinfo: Japan
     timezone: Asia/Tokyo
     locale: ja_JP.UTF-8
     localedef: ja_JP ja_JP.UTF-8
-vagrant_local:
+    vagrant_local:
     install: '1'
     vm: { base_box: centos65, hostname: myApp.vb, ip: 192.168.33.99, memory: '2048', sharedfolder: ./, useVagrantCloud: '1', syncType: nfs }
 nginx:
     install: '1'
     docroot: /var/www
+    localIp: '127.0.0.1'
     servername: myApp.vb
     servernameAdmin: myAdmin.vb
     servernameNode: myNode.vb
 # this value is override other vars_files
-nginx_do_not_cache: 0
+    nginx_do_not_cache: 0
 mysql:
     install: '1'
     root_password: crea0201
@@ -29,9 +29,6 @@ redis:
     port: '6379'
 php:
     install: '1'
-    packages: [php-cli, php-devel, php-pear, php-curl, php-imagick, php-opcache, php-common, php-fpm, php-gd, php-memcache, php-memcached, php-mysql, php-xdebug, php-pdo, curl-devel, php-mcrypt, php-mbstring, libmcrypt, libmcrypt-devel, libcurl-devel]
-    #pecl_packages: [ZendOpcache, mysql, redis, libevent, imagick]
-    pecl_packages: [redis]
 xdebug:
     install: '1'
 composer:
@@ -69,11 +66,6 @@ vagrant_home: "/home/vagrant"
 rvm:
   url: https://get.rvm.io
   temp_installer_path: /tmp/rvm-installer.sh
-
-  # the packages which need for download rvm
-  required_packages:
-    - curl
-    - gnupg2
 
 rvm_install_type: system
 rvm_auto_update_rvm: true

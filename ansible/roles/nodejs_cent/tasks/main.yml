@@ -1,9 +1,9 @@
 ---
 - include: setup-RedHat.yml
-  when: ansible_os_family == 'RedHat'
-
-- include: setup-Debian.yml
-  when: ansible_os_family == 'Debian'
+#  when: ansible_os_family == 'RedHat'
+#
+#- include: setup-Debian.yml
+#  when: ansible_os_family == 'Debian'
 
 - name: Install forever (to run Node.js apps).
   npm: name=forever global=yes state=latest
@@ -15,7 +15,27 @@
     version: "{{ item.version | default('') }}"
     global: yes
     state: latest
-  with_items: nodejs_npm_global_packages
+  with_items:
+    - name: node-dev
+    - name: bower
+    - name: grunt-cli
+    - name: gm
+    - name: canvas
+    - name: flags
+    - name: browserify
+    - name: express
+    - name: express-generator
+    - name: pm2
+    - name: q
+    - name: request
+    - name: tmp
+    - name: easyimage
+    - name: node-inspector
+    - name: config
+    - name: image-size
+    - name: compression
+    - name: object-hash
+    - name: fabric
 
 - name: Install Extra Packages
   sudo: yes

@@ -1,23 +1,28 @@
 ---
+- name: remove the mysql package
+  yum: name=mysql* state=absent
 
-- name: add repository
-  yum: name={{item}}
-  with_items:
-    - http://dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm
+- name: Install the MySQL Community Edition repository
+  sudo: yes
+  shell: rpm -Uvh https://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
+  args:
+    creates: /etc/yum.repos.d/mysql-community.repo
 
 # Retrieve the current hostname, because {{ ansible_hostname }} still contains the old name
 - shell: hostname
   register: current_hostname
 
-- name: mysql | Install MySQL Packages
-  sudo: yes
-  yum: name={{ item }} state=latest enablerepo=remi,remi-php56,epel
+- name: mysqld のインストール
+  yum:
+    name: "{{ item }}"
+    disablerepo: mysql57-community
+    enablerepo: mysql56-community
+    state: present
   with_items:
-    - mysql
-    - mysql-devel
-    - mysql-server
-    - mysql-client
-    - mysql-utilities
+    - mysql-community-server
+    - mysql-community-client
+    - mysql-community-common
+    - mysql-community-libs
     - MySQL-python
 
 - name: start mysql

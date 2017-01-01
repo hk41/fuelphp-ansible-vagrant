@@ -3,7 +3,9 @@
   yum:
     name: "{{ item }}"
     state: present
-  with_items: rvm.required_packages
+  with_items:
+    - curl
+    - gnupg2
   sudo: true
   when: ansible_os_family == "RedHat"
 
@@ -12,5 +14,7 @@
     name: "{{ item }}"
     state: present
   sudo: true
-  with_items: rvm.required_packages
+  with_items:
+    - curl
+    - gnupg2
   when: ansible_os_family == "Debian"

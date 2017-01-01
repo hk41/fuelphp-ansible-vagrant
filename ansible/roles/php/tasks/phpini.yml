@@ -1,4 +1,9 @@
 ---
+- name: enabling short_open_tag cli
+  lineinfile: dest=/etc/php.ini
+              regexp='short_open_tag = Off'
+              line='short_open_tag = On'
+
 - name: ensure timezone is set in cli php.ini
   lineinfile: dest=/etc/php.ini
               regexp='date.timezone ='
@@ -8,6 +13,21 @@
   lineinfile: dest=/etc/php.ini
               regexp=';?opcache.enable_cli=\d'
               line='opcache.enable_cli=1'
+
+- name: enabling mbstring.detect_order cli
+  lineinfile: dest=/etc/php.ini
+              regexp=';?mbstring.detect_order = '
+              line='mbstring.detect_order = auto'
+
+- name: enabling mbstring.internal_encoding cli
+  lineinfile: dest=/etc/php.ini
+              regexp=';?mbstring.internal_encoding ='
+              line='mbstring.internal_encoding = UTF-8'
+
+- name: enabling mbstring.encoding_translation cli
+  lineinfile: dest=/etc/php.ini
+              regexp=';?mbstring.encoding_translation ='
+              line='mbstring.encoding_translation = On'
 
 - name: enabling mbstring.language cli
   lineinfile: dest=/etc/php.ini

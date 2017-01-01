@@ -1,16 +1,41 @@
 ---
+- name: SELinuxのDisable設定
+  selinux: state=disabled
+
 - name: Install System Packages
   sudo: yes
   yum: name={{ item }} state=latest
   with_items:
     - curl
     - wget
+    - unzip
+    - screen 
+    - vim 
+    - git 
+    - rsync 
+    - gcc 
+    - tar 
+    - make 
+    - nkf
 
 - name: Install Extra Packages
   sudo: yes
   yum: name={{ item }} state=latest
-  with_items: server.packages
-  when: server.packages is defined
+  with_items: 
+    - ImageMagick 
+    - ImageMagick-devel 
+    - cairo 
+    - cairo-devel 
+    - cairomm-devel 
+    - libjpeg-turbo-devel 
+    - pango 
+    - pango-devel 
+    - pangomm 
+    - pangomm-devel 
+    - giflib-devel 
+    - ld-linux.so.2 
+    - libstdc++.so.6 
+    - libfontconfig.so.1
 
 - name: Configure the timezone
   sudo: yes

@@ -11,9 +11,13 @@
 #- name: install nginx
 #  apt: pkg=nginx state=present update_cache=yes
 
+- name: update nginx
+  sudo: yes
+  yum: name=nginx-release-centos
+
 - name: install nginx
   sudo: yes
-  yum: name=nginx state=latest
+  yum: name=nginx state=latest enablerepo=nginx
 
 - name: create nginx directories
   file: path={{ item }} state=directory
@@ -39,10 +43,14 @@
   ignore_errors: yes
 
 - name: set auto start nginx
+  sudo: yes
   command: chkconfig nginx on
-
-- name: restart nginx
-  command: service nginx restart
 
 #- name: start nginx
 #  service: name=nginx state=started enabled=yes
+
+#- name: Automatic load when boot
+#  command: systemctl enable nginx.service
+#
+#- name: start nginx
+#  command: systemctl start nginx.service

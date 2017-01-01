@@ -1,11 +1,11 @@
 ---
-- name: Install php5
+- name: Install php7
   sudo: yes
-  yum: name=php state=latest enablerepo=remi,remi-php56
+  yum: name=php state=latest enablerepo=remi,remi-php70
 
 - name: Install php-fpm
   sudo: yes
-  yum: name=php-fpm state=latest enablerepo=remi,remi-php56,epel
+  yum: name=php-fpm state=latest enablerepo=remi,remi-php70,epel
 
 - name: configure fpm
   template: src=www.conf.j2 dest=/etc/php-fpm.d/www.conf mode=0644
@@ -18,9 +18,28 @@
 
 - name: Install PHP Packages
   sudo: yes
-  yum: name={{ item }} state=latest enablerepo=remi,remi-php56,epel
-  with_items: php.packages
-  when: php.packages is defined
+  yum: name={{ item }} state=latest enablerepo=remi,remi-php70,epel
+  with_items:
+    - php-cli 
+    - php-devel 
+    - php-pear 
+    - php-curl 
+    - php-imagick 
+    - php-opcache 
+    - php-common 
+    - php-fpm 
+    - php-gd 
+    - php-memcache 
+    - php-memcached 
+    - php-mysql 
+    - php-xdebug 
+    - php-pdo 
+    - curl-devel 
+    - php-mcrypt 
+    - php-mbstring 
+    - libmcrypt 
+    - libmcrypt-devel 
+    - libcurl-devel
 
 - include: configure.yml
 - include: pecl.yml

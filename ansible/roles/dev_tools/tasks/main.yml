@@ -8,25 +8,3 @@
 #  with_items:
 #    - rails
 #    - bundler
-
-- name: Install javascript tools
-  npm: name={{ item }} state=latest global=yes
-  with_items:
-    - node-dev
-    - bower
-    - grunt-cli
-    - gm
-    - canvas
-    - flags
-    - browserify
-    - express
-    - express-generator
-    - pm2
-    - q
-    - request
-    - tmp
-    - easyimage
-    - node-inspector
-    - config
-    - image-size
-    - fabric

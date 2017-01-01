@@ -1,3 +1,5 @@
 ---
 - name: nginx restart
-  service: name=nginx state=restarted
+  sudo: yes
+  command: service nginx restart
+  #service: name=nginx state=restarted

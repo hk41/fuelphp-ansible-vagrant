@@ -1,143 +1,125 @@
 server {
-       listen 80 default_server;
-       server_name {{ nginx.servername }};
+	listen 80 default_server;
+	server_name {{ nginx.localIp }};
 
-       # Strict Transport Security
-       add_header Strict-Transport-Security max-age=2592000;
-       rewrite ^/.*$ https://$host$request_uri? permanent;
+# Strict Transport Security
+# add_header Strict-Transport-Security max-age=2592000;
+	rewrite ^/.*$ https://$host$request_uri? permanent;
 }
 server {
-       listen 443 default ssl;
-       server_name {{ nginx.servername }};
-       ssl on;
-       ssl_certificate {{ openssl_dir }}/{{ ca.certificate }};
-       ssl_certificate_key {{ openssl_dir }}/{{ ca.key }};
-       root {{ proj_path }}/public;
+	listen 443 default ssl;
+	server_name {{ nginx.localIp }};
+	ssl on;
+	ssl_certificate {{ openssl_dir }}/{{ ca.certificate }};
+	ssl_certificate_key {{ openssl_dir }}/{{ ca.key }};
+	root {{ proj_path }}/public;
 
-       set $do_not_cache {{ nginx_do_not_cache }};
-       set $fuel_env {{ nginx_fuel_env }};
+	charset utf-8;
+	access_log /var/log/nginx/app.access.log ltsv;
+	error_log /var/log/nginx/app.error.log;
 
-       fastcgi_read_timeout 120;
-       client_max_body_size {{ nginx_client_max_body_size }};
+	set $do_not_cache {{ nginx_do_not_cache }};
+	set $fuel_env {{ nginx_fuel_env }};
 
-       location / {
-                try_files $uri /index.php?$uri&$args;
-        }
+	fastcgi_read_timeout 120;
+	client_max_body_size {{ nginx_client_max_body_size }};
 
-        location ~ \.php$ {
-                proxy_no_cache $do_not_cache;
-                proxy_cache_bypass $do_not_cache;
-                fastcgi_pass 127.0.0.1:9000;
-                fastcgi_index index.php;
-                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-                fastcgi_param HTTPS on;
-                fastcgi_param FUEL_ENV $fuel_env;
-                include fastcgi_params;
-        }
+	location / {
+		proxy_buffers 64 4k;
+		try_files $uri /index.php?$uri&$args;
+	}
+
+	location ~ \.php$ {
+
+		add_header 'Access-Control-Allow-Origin' '*';
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+		add_header 'Access-Control-Allow-Headers' 'X-Requested-With,Accept,Content-Type, Origin';
+
+		fastcgi_pass unix:/var/run/php5-fpm.sock;
+		fastcgi_index index.php;
+		fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+		fastcgi_param HTTPS on;
+		fastcgi_param FUEL_ENV $fuel_env;
+		include fastcgi_params;
+
+	}
 }
 
 upstream node-backend {
-    ip_hash;
-    server localhost:6001;
-    #server localhost:6002;
+	ip_hash;
+	server {{ nginx.localIp }}:6001;
+	#server {{ nginx.localIp }}:6002;
 }
 
 server {
-       listen 80;
-       server_name {{ nginx.servernameNode }};
+	listen 8082;
+	server_name {{ nginx.localIp }};
 
-       # Strict Transport Security
-       add_header Strict-Transport-Security max-age=2592000;
-       rewrite ^/.*$ https://$host$request_uri? permanent;
+	proxy_redirect                      off;
+	proxy_set_header Host               $host;
+	proxy_set_header X-Real-IP          $remote_addr;
+	proxy_set_header X-Forwarded-Host   $host;
+	proxy_set_header X-Forwarded-Server $host;
+	proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+	proxy_set_header   X-NginX-Proxy    true;
+	proxy_set_header   Connection "";
+	proxy_http_version 1.1;
+
+	client_max_body_size {{ nginx_client_max_body_size }};
+
+	fastcgi_read_timeout 120;
+	set $do_not_cache 1;
+
+	proxy_no_cache $do_not_cache;
+	proxy_cache_bypass $do_not_cache;
+
+	location / {
+
+		add_header 'Access-Control-Allow-Origin' '*';
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+		add_header 'Access-Control-Allow-Headers' 'X-Requested-With,Accept,Content-Type, Origin';
+
+		proxy_pass http://node-backend;
+	}
+
+	#error_page  404              /404.html;
+	# redirect server error pages to the static page /50x.html
+	#
+	error_page   500 502 503 504  /50x.html;
+	location = /50x.html {
+		root   /usr/share/nginx/html;
+	}
 }
 
 server {
-    listen 443;
-    server_name {{ nginx.servernameNode }};
+	listen 8081;
+	server_name {{ nginx.localIp }};
 
-    #charset koi8-r;
-    #access_log  /var/log/nginx/log/host.access.log  main;
-    #charset utf-8;
-    #access_log /var/log/nginx/default.access.log main;
-    #error_log /var/log/nginx/default.error.log;
+	root {{ proj_path }}/public_admin;
 
-    proxy_redirect                      off;
-    proxy_set_header Host               $host;
-    proxy_set_header X-Real-IP          $remote_addr;
-    proxy_set_header X-Forwarded-Host   $host;
-    proxy_set_header X-Forwarded-Server $host;
-    proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+	charset utf-8;
+	access_log /var/log/nginx/admin.access.log ltsv;
+	error_log /var/log/nginx/admin.error.log;
 
-    proxy_set_header   X-NginX-Proxy    true;
-    proxy_set_header   Connection "";
-    proxy_http_version 1.1;
-    #proxy_cache one;
-    #proxy_cache_key sfs$request_uri$scheme;
+	set $do_not_cache {{ nginx_do_not_cache }};
+	set $fuel_env {{ nginx_fuel_env }};
 
-    client_max_body_size {{ nginx_client_max_body_size }};
+	fastcgi_read_timeout 120;
 
-    fastcgi_read_timeout 120;
-    set $do_not_cache 1;
+	client_max_body_size {{ nginx_client_max_body_size }};
+	proxy_no_cache $do_not_cache;
+	proxy_cache_bypass $do_not_cache;
 
-    proxy_no_cache $do_not_cache;
-    proxy_cache_bypass $do_not_cache;
+	location / {
+		proxy_buffers 64 4k;
+		try_files $uri /index.php?$uri&$args;
+	}
 
-    location / {
-        #root   /usr/share/nginx/html;
-        #index  index.html index.htm;
-
-        add_header 'Access-Control-Allow-Origin' 'https://{{ nginx.servername }}';
-        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
-        add_header 'Access-Control-Allow-Headers' 'X-Requested-With,Accept,Content-Type, Origin';
-
-        proxy_pass http://node-backend;
-    }
-
-    #error_page  404              /404.html;
-
-    # redirect server error pages to the static page /50x.html
-    #
-    error_page   500 502 503 504  /50x.html;
-    location = /50x.html {
-        root   /usr/share/nginx/html;
-    }
-}
-
-
-server {
-       listen 80;
-       server_name {{ nginx.servernameAdmin }};
-
-       # Strict Transport Security
-       add_header Strict-Transport-Security max-age=2592000;
-       rewrite ^/.*$ https://$host$request_uri? permanent;
-}
-server {
-       listen 443;
-       server_name {{ nginx.servernameAdmin }};
-       ssl on;
-       ssl_certificate {{ openssl_dir }}/{{ ca.certificate }};
-       ssl_certificate_key {{ openssl_dir }}/{{ ca.key }};
-       root {{ proj_path }}/public;
-       fastcgi_read_timeout 120;
-
-       set $do_not_cache {{ nginx_do_not_cache }};
-       set $fuel_env {{ nginx_fuel_env }};
-
-       client_max_body_size {{ nginx_client_max_body_size }};
-       proxy_no_cache $do_not_cache;
-       proxy_cache_bypass $do_not_cache;
-
-       location / {
-                try_files $uri /index.php?$uri&$args;
-        }
-
-        location ~ \.php$ {
-                fastcgi_pass 127.0.0.1:9000;
-                fastcgi_index index.php;
-                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-                fastcgi_param HTTPS on;
-                fastcgi_param FUEL_ENV $fuel_env;
-                include fastcgi_params;
-        }
+	location ~ \.php$ {
+    fastcgi_pass unix:/var/run/php5-fpm.sock;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+    fastcgi_param FUEL_ENV $fuel_env;
+    include fastcgi_params;
+	}
 }

@@ -9,8 +9,8 @@
   failed_when: "not (('already installed' in pecl_result.stdout) or ('install ok:' in pecl_result.stdout))"
 #  changed_when: "'already installed' not in pecl_result.stdout"
 #  failed_when: "pecl_result.stderr or ('ERROR' in pecl_result.stdout)"
-  with_items: php.pecl_packages
-  when: php.pecl_packages is defined
+  with_items: 
+    - redis
 
 - name: Create extension .ini file
   template: >
